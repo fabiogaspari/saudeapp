@@ -1,0 +1,193 @@
+<head>
+<meta charset="utf-8">
+</head>
+
+<!-- -->
+<app-mensagem-form *ngIf="verifyEmptyPaginas" [msg]="msgEmptyPaginas"
+	[color]="colorEmptyPaginas"> </app-mensagem-form>
+
+<!-- Preload  -->
+<app-preload [msg]="msgPreload" [show]="showPreload"></app-preload>
+
+<div class="row div-select">
+	<fieldset class="col s8 fieldset-select">
+		<legend> Base - UF </legend>
+		<select name="uf" class="browser-default" [(ngModel)]="uf">
+			<option disabled selected value=''>Selecione um uf</option>
+			<option *ngFor="let uf of ufs" value="{{uf}}">{{uf}}</option>
+		</select>
+		<button center class="btn btn-primary btn-filtrar"
+			(click)="selectUf()">Filtrar</button>
+	</fieldset>
+</div>
+
+<a style="display: inherit;" 
+	(click)="exportFile()"> 
+	<i class="small material-icons icon" (mouseover)="showTextToast('Exportar', 4000)" 
+		(mouseleave)="closeTooltip()">file_download</i>
+</a>
+<div class="list-container">
+	<table class="table table-striped" style="width: 150%; overflow: auto; position: relative">
+		<thead>
+			<tr class="head-table-riscos">
+				<div style="width: 10%">
+					<div by="ranking">Ranking</div>
+					<input type="text" name="ranking" style="width: 90%" 
+							placeholder="filtrar ranking" maxlength="16"
+							(input)="selectFilter($event, 'ranking')">
+				</div>
+				<div style="width: 10%">
+					<div by="statusRPSat">StatusRPSat</div>
+					<input type="text" name="statusRPSat" style="width: 90%" 
+							placeholder="filtrar statusRPSat" maxlength="32"
+							(input)="selectFilter($event, 'statusRPSat')">
+				</div>
+				<div style="width: 15%">
+					<div by="equipeResponsavelNome">Gestão</div>
+					<div class="div-icon" id="equipeResponsavelNome">
+							<i class="small material-icons icon" maxlength="50"
+								(click)="dropdown($event, 'equipeResponsavelNome')">arrow_drop_down</i>
+						</div>
+				</div>
+				<div style="width: 15%">
+					<div class="row">
+						<div class="mleft" by="empregadoNome">Empregado</div>
+						<input type="text" name="empregadoNome" style="width: 90%" 
+							placeholder="filtrar empregado" maxlength="400"
+							(input)="selectFilter($event, 'empregadoNome')">
+					</div>
+				</div>
+				<div style="width: 10%">
+					<div class="row">
+						<div class="mleft" by="data">Data</div>
+						<input type="text" name="data" style="width: 90%" 
+							placeholder="filtrar data" maxlength="10"
+							(input)="selectFilter($event, 'data')">
+					</div>
+				</div>
+				<div style="width: 10%">
+					<div by="status">Status</div>
+					<div class="div-icon" id="status">
+							<i class="small material-icons icon" 
+								(click)="dropdown($event, 'status')">arrow_drop_down</i>
+						</div>
+				</div>
+				<th style="width: 7%">
+					<div class="row">
+						<div class="mleft" by="pendenciaEncerramento">Pendência de Encerramento</div>
+						<div class="div-icon" id="pendenciaEncerramento">
+							<i class="small material-icons icon"
+								(click)="dropDownBoolean('pendenciaEncerramento')">arrow_drop_down</i>
+						</div>
+					</div>
+				</th>
+				<th style="width: 7%">
+					<div class="row">
+						<div class="mleft" by="pendenciaValidacao">Pendência de Validação</div>
+						<div class="div-icon" id="pendenciaValidacao">
+							<i class="small material-icons icon"
+								(click)="dropDownBoolean('pendenciaValidacao')">arrow_drop_down</i>
+						</div>
+					</div>
+				</th>
+				<th style="width: 6%">
+					<div class="row">
+						<div class="mleft" by="pendenciaReavaliacao">Pendência de Reavaliação</div>
+						<div class="div-icon" id="pendenciaReavaliacao">
+							<i class="small material-icons icon"
+								(click)="dropDownBoolean('pendenciaReavaliacao')">arrow_drop_down</i>
+						</div>
+					</div>
+				</th>
+			</tr>
+		</thead>
+		<tbody class="col s12 row-risco row-risco{{i}}">
+			<div *ngFor="let item of flagRiscoPotenciais | filterData : filter : tipoFiltro : value; let i = index">
+				<div class="div-riscos" 
+					(click)="toggleButtons(i)" [ngStyle]="changeColorStatusRPSat(item.statusRPSat)">
+					<div style="width: 10%" class="item-ranking">{{item.ranking}}</div>
+					<div style="width: 10%" >{{item.statusRPSat}}</div>
+					<div style="width: 15%" >{{item.equipeResponsavelNome}}</div>
+					<div style="width: 15%" >{{item.empregadoNome}}</div>
+					<div style="width: 10%" >{{item.data}}</div>
+					<div style="width: 10%" >{{item.status}}</div>
+					<div style="width: 7%" >
+						<td style="border: 0;"><input type="checkbox" id="item-pendenciaEncerramento"
+								disabled [(ngModel)]="item.pendenciaEncerramento"
+								name="pendenciaEncerramento"> <label
+								class="pendenciaEncerramento" for="pendenciaEncerramento"></label></td>
+					</div>
+					<div style="width: 7%" >
+						<td style="border: 0;"><input type="checkbox" id="item-pendenciaValidacao"
+							disabled [(ngModel)]="item.pendenciaValidacao"
+							name="pendenciaValidacao"> <label
+							class="pendenciaValidacao" for="pendenciaValidacao"></label></td>
+					</div>
+					<div style="width: 6%" >
+						<td style="border: 0;"><input type="checkbox" id="item-pendenciaReavaliacao"
+							disabled [(ngModel)]="item.pendenciaReavaliacao"
+							name="pendenciaReavaliacao"> <label
+							class="pendenciaReavaliacao" for="pendenciaReavaliacao"></label></td>
+					</div>
+				</div>
+				<div class="col s12 row-btns row-btns-risco{{i}}" hidden>
+					<div class="row div-btns-risco">
+						<div style="display: inline;">
+							<a
+								href="/risco-potencial/ficha-coleta/{{item.id}}/{{item.empregadoNome}}" target="_blank"
+								class="btn btn-primary btn-ranking">Ficha Coleta</a>
+						</div>
+						<div style="display: inline;" *ngIf="verifyTriagemPlanejamento(item)">
+							<a
+								href="/risco-potencial/triagem/{{item.id}}" target="_blank"
+								class="btn btn-primary btn-ranking">Triagem/Planejamento</a>
+						</div>
+						<div style="display: inline;" *ngIf="verifyAcolhimento(item)">
+							<a
+								href="/risco-potencial/plano-intervencao/{{item.id}}" target="_blank"
+								class="btn btn-primary btn-ranking">Acolhimento</a>
+						</div>
+						<div style="display: inline;">
+							<a
+								href="/risco-potencial/graficos/{{item.id}}" target="_blank"
+								class="btn btn-primary btn-ranking">Gráficos</a>
+						</div>
+						<div style="display: inline;" *ngIf="verifyStatusCriarPlano(item)">
+							<a
+								href="/risco-potencial/criar-plano/{{item.id}}" target="_blank"
+								class="btn btn-primary btn-ranking">Criar Plano</a>
+						</div>
+						<div style="display: inline;" *ngIf="verifyStatusAcao(item)">
+								
+							<a 
+								href="/risco-potencial/acoes/{{item.id}}" target="_blank"
+								class="btn btn-primary btn-ranking">Ações</a>
+						</div>
+						<div style="display: inline;"
+							*ngIf="verifyStatusPlanoIntervencao(item)">
+							<a
+								href="/risco-potencial/plano-intervencao/{{item.id}}" target="_blank"
+								class="btn btn-primary btn-ranking">Plano de Intervenção</a>
+						</div>
+						<div style="display: inline;"
+							*ngIf="verifyStatusAcompanhamento(item)">
+							<a
+								href="/risco-potencial/acompanhamento/{{item.id}}" target="_blank"
+								class="btn btn-primary btn-ranking">Acompanhamento</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</tbody>
+	</table>
+
+	<ul id='dropdown' class='dropdown-conteudo'></ul>
+</div>
+
+<div class="mensagem">
+	<app-mensagem-form *ngIf="verifyError" [color]="colorError"
+		[msg]="msgError"></app-mensagem-form>
+</div>
+
+<div materialize [materializeParams]="toastParams"
+	[materializeActions]="globalActions"></div>

@@ -1,0 +1,11 @@
+table {
+	width: 100% !important;
+}
+
+.tr-filter {
+	cursor: pointer;
+}
+
+label[for=concluido]{
+	 margin-left: 13%;
+}

@@ -1,0 +1,140 @@
+[type="checkbox"]:not(:checked), [type="checkbox"]:checked  {
+    position: absolute;
+    opacity: 0;
+    margin-top: 15px;
+    pointer-events: auto;
+}
+
+.checkbox {
+	margin-top: 0px;
+	padding-left: 35px;
+}
+
+.checkbox_disabled {
+	margin-top: 15px;
+	padding-left: 35px;
+}
+
+.checkbox_empregados {
+	margin-top: -10px;
+	padding-left: 35px;
+}
+
+.checkbox_disabled_empregados {
+	margin-top: 2px;
+	padding-left: 35px;
+}
+
+.gerenciaConvocacaoDatas {
+	margin-top: 0px;
+}
+
+.gerencias {
+	max-height: 400px;
+    overflow: scroll;
+}
+
+.datas {
+	height: 400px;
+    overflow-y: scroll;
+    margin-top: 8px;
+    border-top: 1px solid #CCB;
+    border-bottom: 1px solid #CCC
+}
+
+.empregados {
+	max-height: 600px;
+	overflow: scroll;
+}
+
+
+.title-modal {
+	color: #26a69a;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.paragraph-modal {
+	margin-left: 10px;
+}
+
+.row-collection-empregados {
+	border-top: 1px solid #c0c0c0;
+	margin-bottom: 0px;
+}
+
+.btn-remove {
+	margin-top: -5px;
+    margin-bottom: 3px;
+	width: 30px;
+    height: 30px;
+}
+
+.btn_edit {
+	margin-top: -12px;
+}
+
+.collection-item {
+	color: black;
+}
+
+.btn-convocar {
+	margin-left: 40%;
+}
+
+table {
+	border: 1px solid #c0c0c0;
+    margin-top: 25px;
+}
+
+thead > tr {
+	margin-bottom: 0px;
+	border-bottom: 1px solid;
+}
+
+td > a > i {
+	margin-top: -5px;
+}
+
+tbody{
+	margin-top: 10px;
+	border-bottom: 1px solid #c0c0c0;	
+}
+
+.btn_edit {
+	margin-top: 2px;
+    padding-left: 25px;
+}
+
+.btn-remover {
+	margin-top: 3px;
+    padding-left: 3rem;
+}
+
+.codigo_completo { 
+	padding-left: 12px;
+}
+
+.nome {
+	padding-left: 0px;
+}
+
+.chave {
+	padding-left: 3px;
+}
+
+.checkbox_selecionado {
+	margin-top: 1px;
+    padding-left: 4rem;
+}
+
+.checkbox_convocado {
+	padding-left: 4rem;
+}
+
+.container-empregado-convocacao {
+	max-height: 400px;
+    overflow-y: auto;
+    position: relative;
+}
+

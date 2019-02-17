@@ -1,0 +1,14 @@
+[type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+    position: absolute;
+    opacity: 0;
+    margin-top: 15px;
+    pointer-events: auto;
+}
+
+.btn-remove-permission {
+    margin-top: 30px;
+}
+
+.btn-remove {
+	margin-top: 35px;
+}

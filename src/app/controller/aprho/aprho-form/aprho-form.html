@@ -1,0 +1,401 @@
+<head>
+<meta charset="utf-8">
+</head>
+
+<!-- Preload -->
+<app-preload [msg]="msgPreload" [show]="showPreload"></app-preload>
+
+<!-- Confirm Save -->
+<app-confirm-save [show]="showConfirmSave" [msg]="msgConfirmSave" [goTo]="goTo"></app-confirm-save>  
+
+<div class="row form-container">	
+		<div class="row">
+		<a style="display: inherit;" 
+		(click)="exportFile()"> 
+		<i class="small material-icons icon">file_download</i>
+		</a>
+</div>
+
+		<div class="row">
+			<div class="col s12">
+				<ul class="tabs" materialize="tabs">
+					<li class="tab col s3"><a RouterLinkActive="active"
+						href="#dadosGerais">Dados Gerais</a></li>
+					<li class="tab col s3"><a RouterLinkActive="active"
+						href="#aphoItem">Informações Adicionais</a></li>
+					<li class="tab col s3"><a RouterLinkActive="active"
+						href="#aprhoEmpregado">Empregados</a></li>
+					<li class="tab col s3"><a RouterLinkActive="active"
+						href="#aprhoElaboradores">Elaboradores</a></li>
+				</ul>			
+			</div>
+				<div id="dadosGerais">
+					<form #form3="ngForm" class="col s12">
+						<div class="row">
+							<div class="input-field col s9">
+								<label for="empresa">Empresa</label>
+								<input id="empresa" type="text" required maxlength="1024"
+									name="empresa" [(ngModel)]="aprho.empresa">
+							</div>		
+								<div class="input-field col s3">
+											<label for="data">Data de Criação</label>
+											<app-date-picker [nome]="data" 
+												[customDate]="aprho.dataCustomDate" 
+												[obrigatorio]="'true'"
+												[legenda]="Data"									
+												></app-date-picker>			
+								</div>
+						</div>
+						<div class="row">
+						<div class="input-field col s5">
+							<fieldset>
+								<label for="aprho.ghe" >GHE</label> 						
+								<input type="text" materialize="autocomplete" autocomplete="off"
+									name="aprho.ghe.nome"
+									[(ngModel)]="aprho.ghe.nome"
+									(blur)="autoCompleteGhe.getAutocomplete().getObj($event,aprho,'setGhe','getNome')"
+									(ngModelChange)="autoCompleteGhe.getAutocomplete().getList(aprho.ghe, 'getNome');"
+									(keydown.enter)="autoCompleteGhe.getAutocomplete().pressEnter($event,aprho,'setGhe','getNome');"
+									[materializeParams]="autoCompleteGhe.getAutocomplete().getObjAutoComplete()">
+							</fieldset>
+						</div>	
+							<div class="input-field col s3">
+								<label for="dataRevisao">Data de Revisão</label>
+								<app-date-picker [nome]="'dataRevisao'" 
+											[customDate]="aprho.dataRevisaoCustomDate" 
+											[obrigatorio]="'true'"
+											[legenda]="'Data de Revisão'"									
+											></app-date-picker>	
+							</div>
+					</div>
+					<div class="row">
+					
+					
+				<div class="input-field col s10">
+					<label for="cliente">Aprovador</label> 
+						<input
+							type="text" materialize="autocomplete" autocomplete="off"
+							id="aprho.aprovador.empregado.pessoa.nome"
+							name="aprho.aprovador.empregado.pessoa.nome"
+							[(ngModel)]="aprho.aprovador.empregado.pessoa.nome"
+							(blur)="autoCompleteAprovador.getAutocomplete().getObj($event,aprho,'setAprovador','getNome')"
+							(ngModelChange)="autoCompleteAprovador.getAutocomplete().getList(aprho.aprovador, 'getNome');"
+							(keydown.enter)="autoCompleteAprovador.getAutocomplete().pressEnter($event,aprho,'setAprovador','getNome');"
+							[materializeParams]="autoCompleteAprovador.getAutocomplete().getObjAutoComplete()">
+				</div>
+					<div class="input-field col s2">
+								<label for="revisao">Revisão</label>
+								<input id="revisao" type="text" required maxlength="16"
+								name="revisao" [(ngModel)]="aprho.revisao">
+							</div>
+					</div>
+					</form>
+				</div>
+				<div id="aphoItem" >	
+				<form #form2="ngForm" class="col s12" (ngSubmit)="addAprhoItem()">
+						<div class="row">
+							<div class="input-field col s12">
+								<label for="atividade" >Atividade/Tarefa</label> 
+								<textarea id="atividade" class="materialize-textarea" maxlength="128"
+								[(ngModel)]="aprhoItem.atividade" name="aprhoItem.atividade" required>
+							</textarea>
+							</div>							
+						</div>
+				<div class="row">
+					<div class="input-field col s6">
+						<fieldset>
+							<label for="aprhoItem.agenteRisco" >Agente/Risco Potencial/CAS</label> 						
+							<input type="text" materialize="autocomplete" autocomplete="off"
+								name="aprhoItem.agenteRisco.descricao" required
+								[(ngModel)]="aprhoItem.agenteRisco.descricao"
+								(blur)="autoCompleteAgenteRisco.getAutocomplete().getObj($event,aprhoItem,'setAgenteRisco','getDescricao')"
+								(ngModelChange)="autoCompleteAgenteRisco.getAutocomplete().getList(aprhoItem.agenteRisco, 'getDescricao');"
+								(keydown.enter)="autoCompleteAgenteRisco.getAutocomplete().pressEnter($event,aprhoItem,'setAgenteRisco','getDescricao');"
+								[materializeParams]="autoCompleteAgenteRisco.getAutocomplete().getObjAutoComplete()">
+						</fieldset>
+					</div>	
+					<div class="input-field col s3">
+							<label for="local" >Local</label> 
+							<input	id="local" type="text" name="atividade" required maxlength="128"
+									[(ngModel)]="aprhoItem.local">
+					</div>
+						<div class="input-field col s3">
+							<fieldset>
+									<legend>Avaliação de Eficácia</legend>
+										<select name="aprhoItem.avaliacaoEficacia" class="browser-default" [(ngModel)]="aprhoItem.avaliacaoEficacia" required>
+											<option disabled selected value=null>Selecione uma Avaliação de Eficácia</option>
+											<option *ngFor="let avaliacaoEficacia of avaliacaoEficacias" value="{{avaliacaoEficacia}}">{{avaliacaoEficacia}}</option>
+										</select>
+							</fieldset>
+						</div>	
+				</div>
+				
+				<div class="row">
+					<div class="input-field col s3">
+							<label for="frequencia" >Frequência(Dias/Semanas)</label> 
+							<input	id="frequencia" type="text" name="frequencia" required maxlength="32"
+									[(ngModel)]="aprhoItem.frequencia">
+					</div>
+					<div class="input-field col s2">
+							<label for="duracao" >Duração(min./dia)</label> 
+							<input	id="duracao" type="text" name="duracao" required maxlength="32"
+									[(ngModel)]="aprhoItem.duracao">
+					</div>
+					<div class="input-field col s4">
+					<fieldset>
+						<label for="aprhoItem.fonteGeradora" >Fonte Geradora</label> 						
+						<input type="text" materialize="autocomplete" autocomplete="off"
+						name="aprhoItem.fonteGeradora.descricao"
+						[(ngModel)]="aprhoItem.fonteGeradora.descricao"
+						(blur)="autoCompleteFonteGeradora.getAutocomplete().getObj($event,aprhoItem,'setFonteGeradora','getDescricao')"
+						(ngModelChange)="autoCompleteFonteGeradora.getAutocomplete().getList(aprhoItem.fonteGeradora, 'getDescricao');"
+						(keydown.enter)="autoCompleteFonteGeradora.getAutocomplete().pressEnter($event,aprhoItem,'setFonteGeradora','getDescricao');"
+						[materializeParams]="autoCompleteFonteGeradora.getAutocomplete().getObjAutoComplete()">
+				   </fieldset>
+					</div>
+					<div class="input-field col s3">
+						<fieldset>
+								<legend>Meio de Propagação</legend>
+									<select name="aprhoItem.meioPropagacao" class="browser-default" [(ngModel)]="aprhoItem.meioPropagacao">
+								<option selected value=""></option>
+								<option *ngFor="let meioPropagacao of meioPropagacoes" value="{{meioPropagacao}}">{{meioPropagacao}}</option>
+									</select>
+						</fieldset>
+					</div>	
+				</div>				
+				<div class="row">
+					<div class="input-field col s5">
+						<fieldset>
+							<label for="aprhoItem.possivelDanoSaude" >Possíveis Danos à Saúde</label> 						
+							<input type="text" materialize="autocomplete" autocomplete="off"
+							name="aprhoItem.possivelDanoSaude.descricao" required
+							[(ngModel)]="aprhoItem.possivelDanoSaude.descricao"
+							(blur)="autoCompletePossivelDanoSaude.getAutocomplete().getObj($event,aprhoItem,'setPossivelDanoSaude','getDescricao')"
+							(ngModelChange)="autoCompletePossivelDanoSaude.getAutocomplete().getList(aprhoItem.possivelDanoSaude, 'getDescricao');"
+							(keydown.enter)="autoCompletePossivelDanoSaude.getAutocomplete().pressEnter($event,aprhoItem,'setPossivelDanoSaude','getDescricao');"
+							[materializeParams]="autoCompletePossivelDanoSaude.getAutocomplete().getObjAutoComplete()">
+					   </fieldset>
+					</div>
+					<div class="input-field col s3">
+						<fieldset>
+								<legend>Categoria de Risco</legend>								
+								<select name ="categoriaRisco"  class="browser-default" [(ngModel)]="aprhoItem.categoriaRisco.id">
+								<option selected value=0></option>
+								<option *ngFor="let categoriaRisco of categoriaRiscos" value="{{categoriaRisco.id}}">{{categoriaRisco.descricao}}</option>
+									</select>
+						</fieldset>
+					</div>				
+					<div class="input-field col s3">
+						<fieldset>
+								<legend>Medida de Controle</legend>
+									<select name="aprhoItem.medidaControle" class="browser-default" [(ngModel)]="aprhoItem.medidaControle">
+										<option selected value=""></option>
+										<option *ngFor="let medidaControle of medidaControles" value="{{medidaControle}}">{{medidaControle}}</option>
+									</select>
+						</fieldset>
+					</div>	
+					<div class="col s1">
+						<button type="submit" class="btn-floating waves-effect waves-light green btn-add"><i
+						 class="material-icons center-icon">add</i></button>
+						</div>	
+				</div>		
+				<div class="row">
+
+					<table class="striped row row-full">
+						<thead>
+							<tr class="row col s12">
+								<th class="col s1">Atividade</th>
+								<th class="col s1">Agente de Risco</th>
+								<th class="col s1">Local</th>
+								<th class="col s1">Frequência</th>
+								<th class="col s1">Duração</th>
+								<th class="col s1">Fonte</th>
+								<th class="col s1">Meio Propagação</th>
+								<th class="col s1">Possíveis Danos à Saúde</th>
+								<th class="col s1">Categoria de Risco</th>
+								<th class="col s1">Medidas de Controle</th>
+								<th class="col s1">Avaliação de Eficácia</th>
+								<th class="col s1"></th>
+							</tr>
+						</thead>
+						<div *ngFor="let aprhoItem of aprho.aprhoItens;let i = index">
+							<tbody class="col s12">
+								<tr class="col s12" >		
+										<input id="aprhoItem.version" name="aprhoItem.version" 
+										type="hidden" [(ngModel)]="aprhoItem.version">
+										<input type="hidden" [(ngModel)]="aprhoItem.id"
+										value="{{aprhoItem.id}}" name="aprhoItem.id">								
+										<td class="col s1 aprho" (mouseenter)="callToast(aprhoItem.atividade)">...</td>
+										<td class="col s1 aprho">{{aprhoItem.agenteRisco.descricao}}</td>
+										<td class="col s1 aprho" (mouseenter)="callToast(aprhoItem.local)">...</td>
+										<td class="col s1 aprho" >{{aprhoItem.frequencia}}</td>
+										<td class="col s1 aprho" >{{aprhoItem.duracao}}</td>
+										<td class="col s1 aprho" >{{aprhoItem.fonteGeradora.descricao}}</td>
+										<td class="col s1 aprho" >{{aprhoItem.meioPropagacao}}</td>
+										<td class="col s1 aprho" >{{aprhoItem.possivelDanoSaude.descricao}}</td>
+										<td class="col s1 aprho" >{{aprhoItem.categoriaRisco?.descricao}}</td>
+										<td class="col s1 aprho" >{{aprhoItem.medidaControle}}</td>
+										<td class="col s1 aprho" >{{aprhoItem.avaliacaoEficacia}}</td>
+										<td class="col s1 botao-remover"><a
+										class="btn-floating waves-effect waves-light red btn-remove"
+										(click)="removeAprho(i)"> <i
+											class="material-icons center-icon">delete</i>
+									</a></td>
+								</tr>
+							</tbody>
+						</div>
+
+					</table>
+
+				</div>	
+				</form>	
+				</div>	
+				<div id="aprhoEmpregado">
+					<div class="row">
+					</div>
+					<div class="row">
+						<div class="input-field col s10">
+						
+						<fieldset>
+							<label for="aprhoEmpregado.empregado" >Empregado</label> 						
+							<input type="text" materialize="autocomplete" autocomplete="off"
+							name="aprhoEmpregado.empregado.pessoa.nome" required
+							[(ngModel)]="aprhoEmpregado.empregado.pessoa.nome"
+							(blur)="autoCompleteEmpregado.getAutocomplete().getObj($event,aprhoEmpregado,'setEmpregado','getNome')"
+							(ngModelChange)="autoCompleteEmpregado.getAutocomplete().getList(aprhoEmpregado.empregado, 'getNome');"
+							(keydown.enter)="autoCompleteEmpregado.getAutocomplete().pressEnter($event,aprhoEmpregado,'setEmpregado','getNome');"
+							[materializeParams]="autoCompleteEmpregado.getAutocomplete().getObjAutoComplete()">
+					   </fieldset>
+						</div>
+						<div class="input-field col s2" style="margin-top: 30px;">
+							<a
+								class="btn-floating waves-effect waves-light green btn-add-autocomplete"
+								(click)="addAprhoEmpregado()"> <i
+								class="material-icons center-icon">add</i>
+							</a>
+						</div>
+					</div>	
+					<div class="table-empregados">
+					<table class="striped">
+						<thead>
+							<tr class="row col s12">
+								<th class="col s1">Chave</th>
+								<th class="col s4">Nome</th>
+								<th class="col s3">Gerência</th>
+								<th class="col s1">Atual</th>
+								<th class="col s2">Entrevistado</th>
+								<th class="col s1">Excluir</th>
+							</tr>
+						</thead>
+						<div>
+							<div
+								*ngFor="let aprhoEmpregado of aprho.aprhoEmpregados; let i = index">
+								<tbody class="col s12">
+									<tr class="col s12">
+										<input id="aprhoEmpregado.version" name="aprhoEmpregado.version" 
+										type="hidden" [(ngModel)]="aprhoEmpregado.version">
+										<input type="hidden" [(ngModel)]="aprhoEmpregado.id"
+										value="{{aprhoEmpregado.id}}" name="aprhoEmpregado.id">	
+										<td class="col s1 chave">{{aprhoEmpregado.empregado.chave}}</td>
+										<td class="col s4 nome">{{aprhoEmpregado.empregado.pessoa.nome}}</td>
+										<td class="col s3 codigo_completo">{{aprhoEmpregado.empregado.gerencia.codigoCompleto}}</td>
+										<td class="col s1 checkbox_atual">
+											<input
+											type="checkbox" id="aprho.aprhoEmpregados[{{i}}].atual"
+											[(ngModel)]="aprhoEmpregado.atual"
+											name="aprho.aprhoEmpregados[{{i}}].atual"> <label
+											for="aprho.aprhoEmpregados[{{i}}].atual"></label></td>
+											
+										<td class="col s2 checkbox_atual">
+											<input
+											type="checkbox" id="aprho.aprhoEmpregados[{{i}}].entrevistado"
+											[(ngModel)]="aprhoEmpregado.entrevistado"
+											name="aprho.aprhoEmpregados[{{i}}].entrevistado"> <label
+											for="aprho.aprhoEmpregados[{{i}}].entrevistado"></label></td>	
+										<td class="col s1 btn-removerEmp"><a
+											(click)="removeAprhoEmpregado(i)"
+											[ngStyle]="{'cursor': 'pointer'}"><i
+												class="material-icons">delete</i></a></td>
+									</tr>
+								</tbody>
+							</div>
+						</div>
+					</table>
+				</div>	
+				</div>
+				<div id="aprhoElaboradores">
+					<div class="row">
+					</div>
+					<div class="row">					
+						<div class="input-field col s10">
+							<label for="cliente">Elaborador</label> 
+								<input
+									type="text" materialize="autocomplete" autocomplete="off"
+									name="equipe.coordenador.empregado.pessoa.nome"
+									[(ngModel)]="equipe.coordenador.empregado.pessoa.nome"
+									(blur)="autoCompleteElaborador.getAutocomplete().getObj($event,equipe,'setCoordenador','getNome')"
+									(ngModelChange)="autoCompleteElaborador.getAutocomplete().getList(equipe.coordenador, 'getNome');"
+									(keydown.enter)="autoCompleteElaborador.getAutocomplete().pressEnter($event,equipe,'setCoordenador','getNome');"
+									[materializeParams]="autoCompleteElaborador.getAutocomplete().getObjAutoComplete()">
+						</div>
+						<div class="input-field col s2" style="margin-top: 30px;">
+							<a
+								class="btn-floating waves-effect waves-light green btn-add-autocomplete"
+								(click)="addAprhoElaborador()"> <i
+								class="material-icons center-icon">add</i>
+							</a>
+						</div>
+					</div>
+					<div class="table-empregados">
+					<table class="striped">
+						<thead>
+							<tr class="row col s12">
+								<th class="col s9">Nome</th>
+								<th class="col s2">Matrícula</th>
+								<th class="col s1">Excluir</th>
+							</tr>
+						</thead>
+						<div>
+							<div
+								*ngFor="let elaborador of aprho.elaboradores; let i = index">
+								<tbody class="col s12">
+									<tr class="col s12">
+										<input id="elaborador.version" name="elaborador.version" 
+										type="hidden" [(ngModel)]="elaborador.version">
+										<input type="hidden" [(ngModel)]="elaborador.id"
+										value="{{elaborador.id}}" name="elaborador.id">	
+										<td class="col s9 nome">{{elaborador.empregado.pessoa.nome}}</td>
+										<td class="col s2 codigo_completo">{{elaborador.empregado.matricula}}</td>
+										<td class="col s1 btn-removerEmp"><a
+											(click)="removeAprhoElaborador(i)"
+											[ngStyle]="{'cursor': 'pointer'}"><i
+												class="material-icons">delete</i></a></td>
+									</tr>
+								</tbody>
+							</div>
+						</div>
+					</table>
+				</div>	
+					</div>	
+			</div>
+		<input id="id" name="id" type="hidden" [(ngModel)]="aprho.id"> 
+		<input id="version" name="version" type="hidden" [(ngModel)]="aprho.version">
+
+		<div class="mensagem">
+			<app-mensagem-form *ngIf="verifyError" [color]="colorError" [msg]="msgError"></app-mensagem-form>
+		</div>
+
+		<div class='row row-btns'>
+			<div class="col s6">
+				<a [routerLink]="['/aprho']"
+					class="btn btn-primary btn-listar">Listar</a>
+			</div>
+			<form #form="ngForm" class="col s6" (ngSubmit)="save()">
+				<button type="submit"
+				class="btn btn-primary btn-salvar">Salvar</button>
+			</form>
+		</div>
+	
+</div>
+<div materialize [materializeParams]="toastParams" 
+	[materializeActions]="globalActions"></div>

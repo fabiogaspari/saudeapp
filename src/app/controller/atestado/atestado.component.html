@@ -1,0 +1,96 @@
+<head>
+<meta charset="utf-8">
+</head>
+
+<!-- -->
+<app-mensagem-form *ngIf="verifyEmptyPaginas" [msg]="msgEmptyPaginas"
+	[color]="colorEmptyPaginas"> </app-mensagem-form>
+
+<!-- Preload  -->
+<app-preload [msg]="msgPreload" [show]="showPreload"></app-preload>
+
+<div class="list-container">
+
+	<div class="collection">
+
+		<div *ngFor="let a of array">
+			<div class="row row-collection">
+				<div class="col s2">
+					<a [routerLinkActive]="['active']" class="collection-item">{{a.id}}</a>
+				</div>
+				<div class="col s4">
+					<a [routerLinkActive]="['active']" class="collection-item">{{a.empregado.pessoa.nome}}</a>
+				</div>
+				<div class="col s4">
+					<a [routerLinkActive]="['active']" class="collection-item">{{a.inicio | transformDate}} - {{a.status}}</a>
+				</div>
+				<div class="col s2">
+					<a [routerLink]="['/atestado/detalhe', a.id]"><i
+						class="material-icons">details</i></a>
+					<a [routerLink]="['/atestado/editar', a.id]"><i
+						class="material-icons">mode_edit</i></a>
+					<a [ngStyle]="{'cursor': 'pointer'}" (click)="delete(a.id)"><i
+						class="material-icons">delete</i></a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Paginação -->
+	<app-paginacao [filter]="filter" [paginasAtuais]="paginasAtuais"
+		[paginas]="paginas" [listComponent]="listComponent"
+		[verifyEmptyPaginas]="verifyEmptyPaginas"></app-paginacao>
+
+	<div class="row bts">
+		<div class="col s6">
+			<a class="waves-effect waves-light btn" (click)="openModal()">Filtro</a>
+		</div>
+	</div>
+
+</div>
+
+<!-- Modal Structure -->
+<div id="modal" class="modal" materialize="modal" (keypress)="enterFilter($event)"
+	[materializeParams]="modelParams" [materializeActions]="modalActions">
+
+	<div class="row">
+
+		<div class="input-field col s12">
+			<div class="modal-content">
+				<label for="nome">Nome do Empregado</label> <input type="text" id="nome"
+					[(ngModel)]="filter.empregado.pessoa.nome" name="nome">
+			</div>
+		</div>
+		
+		<div class="input-field col s12">
+			<div class="modal-content">
+				<label for="matricula">Matricula do Empregado</label> 
+				<input type="text" id="matricula" [(ngModel)]="filter.empregado.matricula" name="matricula">
+			</div>
+			<div class="modal-content">
+				<label for="uf">UF</label> 
+				<input type="text" id="uf" [(ngModel)]="filter.empregado.base.uf" name="uf">
+			</div>
+			<div class="modal-content">
+				<label for="status">Status</label> 
+				<input type="text" id="status" [(ngModel)]="filter.status" name="status">
+			</div>
+		</div>
+
+	</div>
+
+	<div class="modal-footer">
+		<a class="waves-effect waves-green btn-flat" (click)="closeModal()">Fechar</a>
+		<a class="modal-action modal-close waves-effect waves-green btn-flat"
+			(click)="setFilter()">Filtrar</a>
+	</div>
+
+</div>
+
+<app-confirm-delete [service]="service" [idDelete]="tempDelete" (cancelDelete)="closeModalDelete($event)"
+	[show]="openModalDelete"></app-confirm-delete>
+
+<div class="mensagem">
+	<app-mensagem-form *ngIf="verifyError" [color]="colorError"
+		[msg]="msgError"></app-mensagem-form>
+</div>

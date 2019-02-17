@@ -1,0 +1,24 @@
+<head>
+<meta charset="utf-8">
+</head>
+
+<!-- Modal Structure -->
+<div id="modal" class="modal" materialize="modal"
+	[materializeParams]="modelParams" [materializeActions]="modalConfirmSave">
+
+	<div class="confirm-save">
+	
+		<div id="confirm-save-text" class="title">
+			<h5>Confirmação</h5>
+		</div>
+		<div class="paragraph">
+			<p>{{msg}}</p>
+		</div>
+	
+		<div class="modal-footer">
+		<a class="waves-effect waves-green btn-flat"
+			(click)="confirmSave()">Confirmar</a>
+	</div>
+	</div>
+	
+</div>

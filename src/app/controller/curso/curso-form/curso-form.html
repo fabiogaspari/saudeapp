@@ -1,0 +1,56 @@
+<head>
+<meta charset="utf-8">
+</head>
+
+<!-- Preload -->
+<app-preload [msg]="msgPreload" [show]="showPreload"></app-preload>
+
+<!-- Confirm Save -->
+<app-confirm-save [show]="showConfirmSave" [msg]="msgConfirmSave" [goTo]="goTo"></app-confirm-save>
+
+<div class="row form-container">
+	<form #form="ngForm" class="col s12" (ngSubmit)="save()">
+
+		<div class="row">
+
+			<div class="input-field col s12">
+				<label for="nome" data-error="Campo obrigatório.">Nome</label>
+				<input id="nome" type="text" required maxlength="120" 
+					name="curso.nome" [(ngModel)]="curso.nome">
+			</div>
+			
+		</div>
+		
+		<div class="row">
+		
+			<div class="input-field col s8">
+				<label for="descricao">Descricao</label>
+				<input id="descricao" type="text" maxlength="1024" 
+					name="curso.descricao" [(ngModel)]="curso.descricao">
+			</div>
+
+			<div class="input-field col s4">
+				<label for="validade">Validade (anos)</label>
+				<input id="validade" type="number" name="curso.validade" [(ngModel)]="curso.validade">
+			</div>
+
+		</div>
+
+		<input id="id" type="hidden" name="curso.id" [(ngModel)]="curso.id"> 
+		<input id="version" type="hidden" name="curso.version" [(ngModel)]="curso.version">
+		
+		<div class="mensagem">
+			<app-mensagem-form *ngIf="verifyError" [color]="colorError" [msg]="msgError"></app-mensagem-form>
+		</div>
+
+		<div class='row row-btns'>
+			<div class="col s6">
+				<a [routerLink]="['/curso']"
+					class="btn btn-primary btn-listar">Listar</a>
+			</div>
+			<div class="col s6">
+				<button type="submit" class="btn btn-primary btn-salvar">Salvar</button>
+			</div>
+		</div>
+	</form>
+</div>

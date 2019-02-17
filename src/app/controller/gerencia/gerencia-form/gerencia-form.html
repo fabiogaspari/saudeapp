@@ -1,0 +1,119 @@
+<head>
+<meta charset="utf-8">
+</head>
+
+<!-- Preload -->
+<app-preload [msg]="msgPreload" [show]="showPreload"></app-preload>
+
+<!-- Confirm Save -->
+<app-confirm-save [show]="showConfirmSave" [msg]="msgConfirmSave"
+	[goTo]="goTo"></app-confirm-save>
+
+<div class="row form-container">
+	<form #form="ngForm" class="col s12" (ngSubmit)="save()">
+
+		<div class="row">
+			<div class="input-field col s8">
+				<label for="codigo" data-error="Campo obrigatório.">Codigo</label> <input
+					id="codigo" type="text" required name="gerencia.codigo" maxlength="10"
+					[(ngModel)]="gerencia.codigo">
+			</div>
+
+			<div class="input-field col s4">
+				<fieldset>
+					<legend>Gerência <a
+								class="btn-floating waves-effect waves-light green btn-add-fieldset"
+								(click)="getGerencias()"> <i
+								class="material-icons center-icon">cached</i>
+							</a></legend>
+					<select class="browser-default" name="gerencia.gerencia"
+						[(ngModel)]="gerencia.gerencia.id">
+						<option selected value=0>Selecione uma gerência</option>
+						<option *ngFor="let gerencia of gerencias" value="{{gerencia.id}}">{{gerencia.codigoCompleto}}</option>
+					</select>
+				</fieldset>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="input-field col s4">
+				<label for="gerente">Gerente</label> 
+				<input
+					type="text" materialize="autocomplete" autocomplete="off"
+					name="gerencia.gerente.pessoa.nome"
+					[(ngModel)]="gerencia.gerente.pessoa.nome"
+					(blur)="autoCompleteGerente.getAutocomplete().getObj($event,gerencia,'setGerente','getNome')"
+					(ngModelChange)="autoCompleteGerente.getAutocomplete().getList(gerencia.gerente, 'getNome');"
+					(keydown.enter)="autoCompleteGerente.getAutocomplete().pressEnter($event,gerencia,'setGerente','getNome');"
+					[materializeParams]="autoCompleteGerente.getAutocomplete().getObjAutoComplete()">
+				<input id="gerencia.gerente.id" type="hidden" name="gerencia.gerente.id"
+					[(ngModel)]="gerencia.gerente.id">
+			</div>
+			
+			<div class="input-field col s4">
+				<label for="secretario1">Secretário 1</label> 
+				<input
+					type="text" materialize="autocomplete" autocomplete="off"
+					name="gerencia.secretario1.pessoa.nome"
+					[(ngModel)]="gerencia.secretario1.pessoa.nome"
+					(blur)="autoCompleteSecretario1.getAutocomplete().getObj($event,gerencia,'setSecretario1','getNome')"
+					(ngModelChange)="autoCompleteSecretario1.getAutocomplete().getList(gerencia.secretario1, 'getNome');"
+					(keydown.enter)="autoCompleteSecretario1.getAutocomplete().pressEnter($event,gerencia,'setSecretario1','getNome');"
+					[materializeParams]="autoCompleteSecretario1.getAutocomplete().getObjAutoComplete()">
+				<input id="gerencia.secretario1.id" type="hidden" name="gerencia.secretario1.id"
+					[(ngModel)]="gerencia.secretario1.id">
+			</div>
+
+			<div class="input-field col s4">
+				<label for="secretario2">Secretário 2</label> 
+				<input
+					type="text" materialize="autocomplete" autocomplete="off"
+					name="gerencia.secretario2.pessoa.nome"
+					[(ngModel)]="gerencia.secretario2.pessoa.nome"
+					(blur)="autoCompleteSecretario2.getAutocomplete().getObj($event,gerencia,'setSecretario2','getNome')"
+					(ngModelChange)="autoCompleteSecretario2.getAutocomplete().getList(gerencia.secretario2, 'getNome');"
+					(keydown.enter)="autoCompleteSecretario2.getAutocomplete().pressEnter($event,gerencia,'setSecretario2','getNome');"
+					[materializeParams]="autoCompleteSecretario2.getAutocomplete().getObjAutoComplete()">
+				<input id="gerencia.secretario2.id" type="hidden" name="gerencia.secretario2.id"
+					[(ngModel)]="gerencia.secretario2.id">
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="input-field col s10">
+				<label for="descricao">Descrição</label> <input id="descricao"
+					type="text" name="gerencia.descricao" maxlength="200"
+					[(ngModel)]="gerencia.descricao">
+			</div>
+			<div class="input-field col s2 checkbox">
+				<input type="checkbox" id="ausentePeriodico"
+					[(ngModel)]="gerencia.ausentePeriodico"
+					name="gerencia.ausentePeriodico"> <label
+					for="ausentePeriodico">Ausente do Periódico</label>
+			</div>
+		</div>
+
+		<input id="id" name="id" type="hidden" name="gerencia.id"
+			[(ngModel)]="gerencia.id"> <input id="version" name="version"
+			type="hidden" name="gerencia.version" [(ngModel)]="gerencia.version">
+
+		<div class="mensagem">
+			<app-mensagem-form *ngIf="verifyError" [color]="colorError"
+				[msg]="msgError"></app-mensagem-form>
+		</div>
+
+		<div class='row row-btns'>
+			<div class="col s6">
+				<a [routerLink]="['/gerencia']"
+					class="btn btn-primary btn-listar">Listar</a>
+			</div>
+			<div class="col s6">
+				<button type="submit" class="btn btn-primary btn-salvar">Salvar</button>
+			</div>
+		</div>
+
+		<div materialize [materializeParams]="toastParams"
+			[materializeActions]="globalActions"></div>
+
+	</form>
+</div>

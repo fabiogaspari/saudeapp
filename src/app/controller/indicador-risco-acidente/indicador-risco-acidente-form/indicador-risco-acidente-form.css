@@ -1,0 +1,14 @@
+[type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+    position: absolute;
+    opacity: 0;
+    margin-top: 15px;
+    pointer-events: auto;
+}
+
+.checkbox {
+	margin-top: 0px;
+}
+
+.checkbox-critico {
+	margin-top: 30px;
+}

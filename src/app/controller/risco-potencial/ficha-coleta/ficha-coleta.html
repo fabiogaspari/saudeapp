@@ -1,0 +1,27 @@
+<head>
+<meta charset="utf-8">
+</head>
+
+<!-- Preload -->
+<app-preload [msg]="msgPreload" [show]="showPreload"></app-preload>
+
+<!-- Confirm Save -->
+<app-confirm-save [show]="showConfirmSave" [msg]="msgConfirmSave"
+	[goTo]="goTo"></app-confirm-save>
+	
+<p style="color: #26a69a;"><b>Nome do Empregado:  {{nomeEmpregado}}</b></p>
+
+<div class="row form-container">
+
+	<div id="fichaColeta">
+		<app-ficha-coleta [fichaColeta]="fichaColeta" [statusFila]="'*'"
+			[service]="filaEsperaOcupacionalService" [idEquipeProfissional]="idEquipeProfissional"></app-ficha-coleta>
+	</div>
+
+	<div class='row row-btns'>
+		<div class="col s12">
+			<a class="btn btn-primary btn-salvar" (click)="salvar()	">Salvar</a>
+		</div>
+	</div>
+
+</div>

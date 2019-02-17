@@ -1,0 +1,278 @@
+<head>
+<meta charset="utf-8">
+</head>
+
+<!-- Preload -->
+<app-preload [msg]="msgPreload" [show]="showPreload"></app-preload>
+
+<!-- Confirm Save -->
+<app-confirm-save [show]="showConfirmSave" [msg]="msgConfirmSave"
+	[goTo]="goTo"></app-confirm-save>
+
+<div class="row form-container">
+	<form #form="ngForm" class="col s12" (ngSubmit)="save()">
+
+		<div class="resume">
+			<p><b>Empregado:</b> {{empregado}}</p>
+			<table class="striped">
+				<thead>
+					<tr class="row col s12">
+						<th class="col s3">TMB</th>
+						<th class="col s3">VE</th>
+						<th class="col s3">NE</th>
+						<th class="col s3">Comparação</th>
+					</tr>
+				</thead>
+				<tbody class="col s12">
+					<tr class="col s12">
+						<td class="col s3" style="padding: 0;">{{recordatorio.tmb}}</td>
+						<td class="col s3" style="padding: 0;">{{somatorioVe}}</td>
+						<td class="col s3" style="padding: 0;">{{recordatorio.ne}}</td>
+						<td class="col s3" style="padding-left: 4%;">{{roundComparacao(somatorioVe - recordatorio.ne)}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<ul class="tabs" materialize="tabs">
+			<li class="tab col s4"><a RouterLinkActive="active"
+				href="#dadosGerais">Dados Gerais</a></li>
+			<li class="tab col s4"><a RouterLinkActive="active"
+				href="#todasRefeicoes">Todas as Refeições</a></li>
+			<li class="tab col s4"><a RouterLinkActive="active"
+				href="#resumoNutrientes">Resumo de Nutrientes</a></li>
+		</ul>
+		
+		<div id="dadosGerais">
+			<div class="content-recordatorio">
+				<div class="menu-refeicao">
+					<p style="text-align: center;">
+						<b style="color: #26a69a;">Refeições</b> <a
+							class="btn-add-refeicao btn-tiny waves-effect waves-light"
+							(click)="callAddRefeicao()"> <i class="tiny material-icons">add</i>
+						</a>
+					</p>
+					<div class="col s12 btn-refeicao {{r}}"
+						(click)="selectRefeicao(ref, r)"
+						*ngFor="let ref of recordatorio.refeicoes; let r = index">
+						<p class="col s9 refeicao-nome">{{ref.nome}}</p>
+						<a class="col s2" (click)="removeRefeicao(r)"> <i
+							style="color: green" class="material-icons">delete</i>
+						</a>
+					</div>
+				</div>
+
+				<div class="edit row" style="margin-left: 20%">
+					<div class="row" *ngIf="editRefeicao">
+						<div class="input-field col s12">
+							<label for="nome">Nome da Refeição</label> <input id="nome"
+								maxlength="64" name="nome" [(ngModel)]="refeicao.nome">
+						</div>
+						<div class="row">
+							<p style="text-align: center;">
+								<b style="color: #26a69a;">Adicionar Itens na Refeição</b> 
+							</p>
+						</div>
+						<div class="row">
+							<div class="col s10">
+								<app-item-refeicao [itemRefeicao]="itemNew"
+									[alimentoAutocomplete]="alimentoAutocompleteNew"
+									[medidaAutocomplete]="medidaAlimentarNew"> </app-item-refeicao>
+							</div>
+							<div class="col s2">
+								<a style="margin-top: 40%;" class="btn-floating waves-effect waves-light"
+									(click)="addItemRefeicao()"> <i class="tiny material-icons">add</i>
+								</a>
+							</div>
+						</div>
+						
+
+						<div class="row">
+							<table class="striped">
+								<thead>
+									<tr class="row col s12">
+										<th class="col s4">Alimento</th>
+										<th class="col s3">Medida</th>
+										<th class="col s3">Quantidade</th>
+										<th class="col s1">VE</th>
+										<th class="col s1">Remover</th>
+									</tr>
+								</thead>
+								<div *ngFor="let it of refeicao.itens; let i = index">
+									<tbody class="col s12">
+										<tr class="col s12">
+											<td class="col s4 alimento-nome">{{it.alimento.nome}}</td>
+											<td class="col s3 medida">{{it.medidaCaseira.descricao}}</td>
+											<td class="col s3 quantidade">{{it.quantidade}}</td>
+											<td id="{{i}}" class="col s1 ve">{{it.ve | number}}</td>
+											<td class="col s1 botao-remover"><a class="col s1"
+												style="cursor: pointer" (click)="removeItemRefeicao(i)">
+													<i class="material-icons">delete</i>
+											</a></td>
+										</tr>
+									</tbody>
+								</div>
+
+							</table>
+
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<div id="todasRefeicoes">
+			<div class="col s12">
+				<div class="col s11">
+				</div>
+				<div class="col s1">					
+					<a class="btn-floating pulse waves-effect waves-light"
+						(click)="copyToClipboard()"> <i class="tiny material-icons">content_copy</i>
+					</a>
+				</div>
+			</div>
+			<div class="row"
+				*ngFor="let refeicao of recordatorio.refeicoes; let r = index">
+				<p>
+					<b>{{refeicao.nome}}</b>
+				</p>
+				<table class="striped">
+					<thead>
+						<tr class="row col s12">
+							<th class="col s3">Quantidade</th>
+							<th class="col s4">Medida</th>
+							<th class="col s4">Alimento</th>
+							<th class="col s1">VE</th>
+						</tr>
+					</thead>
+					<div *ngFor="let it of refeicao.itens; let i = index">
+						<tbody class="col s12">
+							<tr class="col s12">
+								<td class="col s3 quantidade">{{it.quantidade}}</td>
+								<td class="col s4 medida">{{it.medidaCaseira.descricao}}</td>
+								<td class="col s4 alimento-nome">{{it.alimento.nome}}</td>
+								<td id="{{i}}" class="col s1 ve">{{it.ve | number }}</td>
+							</tr>
+						</tbody>
+					</div>
+					<p>
+						<span style="margin-left:2%"><b>Total:</b></span>
+						<span style="margin-left:85%"><b>{{refeicao.somatorio | number}}</b></span>
+					</p>
+				</table>
+			</div>
+		</div>
+		<div id="resumoNutrientes">
+			<div class="col s12" *ngFor="let ref of recordatorio.refeicoes; let r = index">
+				<p><b>{{ref.nome}}</b></p>
+				<table class="tableResumo">
+					<tr class="col s12">
+						<th class="col s3 linhaResumo" id="proteina">Proteina (g)</th>
+						<th class="col s3 linhaResumo" id="gordSaturada">Gordura Saturada (g)</th>
+						<th class="col s3 linhaResumo" id="gordMonoinsaturada">Gordura Monoinsaturada (g)</th>
+						<th class="col s3 linhaResumo" id="gordPoliinsaturada">Gordura Poliinsaturada (g)</th>
+					</tr>
+					<tr class="col s12">
+						<td class="col s3 linhaResumo" headers="proteina">{{sumNutriente(ref, "proteina") | number}}</td>
+						<td class="col s3 linhaResumo" headers="saturada">{{sumNutriente(ref, "saturada") | number}}</td>
+						<td class="col s3 linhaResumo" headers="monoinsaturada">{{sumNutriente(ref, "monoinsaturada") | number}}</td>
+						<td class="col s3 linhaResumo" headers="poliinsaturada">{{sumNutriente(ref, "poliinsaturada") | number}}</td>
+					</tr>
+					<tr class="col s12">
+						<th class="col s3 linhaResumo" id="lipidios">Lipídeos (g)</th>
+						<th class="col s3 linhaResumo" id="omega3">Ômega 3</th>
+						<th class="col s3 linhaResumo" id="colesterol">Colesterol (mg)</th>
+						<th class="col s3 linhaResumo" id="carboidratos">Carboidratos (g)</th>						
+					</tr>
+					<tr class="col s12">
+						<td class="col s3 linhaResumo" headers="lipideos">{{sumNutriente(ref, "lipideos") | number}}</td>
+						<td class="col s3 linhaResumo" headers="omega3">{{sumNutriente(ref, "omega3") | number}}</td>
+						<td class="col s3 linhaResumo" headers="colesterol">{{sumNutriente(ref, "colesterol") | number}}</td>
+						<td class="col s3 linhaResumo" headers="carboidratos">{{sumNutriente(ref, "cho") | number}}</td>
+					</tr>
+					<tr class="col s12">
+						<th class="col s3 linhaResumo" id="Fibra">Fibra (g)</th>
+						<th class="col s3 linhaResumo" id="calcio">Cálcio (mg)</th>
+						<th class="col s3 linhaResumo" id="magnesio">Magnésio (g)</th>
+						<th class="col s3 linhaResumo" id="manganes">Manganês (g)</th>
+					</tr>
+					<tr class="col s12">
+						<td class="col s3 linhaResumo" headers="Fibra">{{sumNutriente(ref, "fibra") | number}}</td>	
+						<td class="col s3 linhaResumo" headers="calcio">{{sumNutriente(ref, "calcio") | number}}</td>
+						<td class="col s3 linhaResumo" headers="magnesio">{{sumNutriente(ref, "mg") | number}}</td>
+						<td class="col s3 linhaResumo" headers="manganes">{{sumNutriente(ref, "mn") | number}}</td>						
+					</tr>
+					<tr class="col s12">
+						<th class="col s3 linhaResumo" id="fosforo">Fósforo (mg)</th>
+						<th class="col s3 linhaResumo" id="ferro">Ferro (mg)</th>
+						<th class="col s3 linhaResumo" id="sodio">Sódio (mg)</th>
+						<th class="col s3 linhaResumo" id="potassio">Potássio (mg)</th>										
+					</tr>
+					<tr class="col s12">
+						<td class="col s3 linhaResumo" headers="fosforo">{{sumNutriente(ref, "p") | number}}</td>
+						<td class="col s3 linhaResumo" headers="ferro">{{sumNutriente(ref, "ferro") | number}}</td>
+						<td class="col s3 linhaResumo" headers="sodio">{{sumNutriente(ref, "sodio") | number}}</td>
+						<td class="col s3 linhaResumo" headers="potassio">{{sumNutriente(ref, "potassio") | number}}</td>																
+					</tr>
+					<tr class="col s12">
+						<th class="col s3 linhaResumo" id="cobre">Cobre (mg)</th>		
+						<th class="col s3 linhaResumo" id="zinco">Zinco (mg)</th>
+						<th class="col s3 linhaResumo" id="retinol">Retinol (mg)</th>
+						<th class="col s3 linhaResumo" id="tiamina">Tiamina (mg)</th>												
+					</tr>
+					<tr class="col s12">
+						<td class="col s3 linhaResumo" headers="cobre">{{sumNutriente(ref, "cobre") | number}}</td>	
+						<td class="col s3 linhaResumo" headers="zinco">{{sumNutriente(ref, "zinco") | number}}</td>
+						<td class="col s3 linhaResumo" headers="retinol">{{sumNutriente(ref, "retinol") | number}}</td>
+						<td class="col s3 linhaResumo" headers="tiamina">{{sumNutriente(ref, "tiamina") | number}}</td>											
+					</tr>
+					<tr class="col s12">
+						<th class="col s3 linhaResumo" id="riboflavina">Riboflavina (mg)</th>
+						<th class="col s3 linhaResumo" id="piridoxina">Piridoxina (mg)</th>
+						<th class="col s3 linhaResumo" id="niacina">Niacina (mg)</th>
+						<th class="col s3 linhaResumo" id="vitaminaC">Vitamina C (mg)</th>						
+					</tr>
+					<tr class="col s12">
+						<td class="col s3 linhaResumo" headers="riboflavina">{{sumNutriente(ref, "riboflavina") | number}}</td>	
+						<td class="col s3 linhaResumo" headers="piridoxina">{{sumNutriente(ref, "piridoxina") | number}}</td>
+						<td class="col s3 linhaResumo" headers="niacina">{{sumNutriente(ref, "niacina") | number}}</td>
+						<td class="col s3 linhaResumo" headers="vitaminaC">{{sumNutriente(ref, "vitc") | number}}</td>						
+					</tr>
+					<tr class="col s12">
+						<th class="col s3 linhaResumo" id="vitaminaD">Vitamina D (mg)</th>
+						<th class="col s3 linhaResumo" id="omega6">Ômega 6 (mg)</th>
+						<th class="col s3 linhaResumo" id="vitaminaE">Vitamina E(mg)</th>
+					</tr>
+					 <tr class="col s12">
+					    <td class="col s3 linhaResumo" headers="vitaminaD">{{sumNutriente(ref, "vitd") | number}}</td>
+						<td class="col s3 linhaResumo" headers="omega6">{{sumNutriente(ref, "omega6") | number}}</td>
+						<td class="col s3 linhaResumo" headers="vitaminaE">{{sumNutriente(ref, "vite") | number}}</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<input id="id" name="id" type="hidden" [(ngModel)]="recordatorio.id">
+		<input id="version" name="version" type="hidden"
+			[(ngModel)]="recordatorio.version">
+
+		<div class="mensagem">
+			<app-mensagem-form *ngIf="verifyError" [color]="colorError"
+				[msg]="msgError"></app-mensagem-form>
+		</div>
+
+		<div class='row row-btns'>
+			<div class="col s6">
+				<a [routerLink]="['/recordatorio']"
+					class="btn btn-primary btn-listar">Listar</a>
+			</div>
+			<div class="col s6">
+				<button type="submit" class="btn btn-primary btn-salvar">Salvar</button>
+			</div>
+		</div>
+	</form>
+</div>
+
+<app-recordatorio-refeicao (refeicaoEmit)="addRefeicao($event)"></app-recordatorio-refeicao>
+
+<div materialize [materializeParams]="toastParams"
+	[materializeActions]="globalActions"></div>

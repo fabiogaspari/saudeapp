@@ -1,0 +1,151 @@
+[type="checkbox"]:not(:checked), [type="checkbox"]:checked  {
+    position: absolute;
+    opacity: 0;
+    margin-top: 15px;
+    pointer-events: auto;
+}
+
+
+.checkbox {
+	margin-top: 0px;
+	padding-left: 35px;
+}
+
+.form-container {
+	display: grid !important;
+}
+
+.container-triagem {
+
+}
+
+.row-modal-acao {
+	padding: 15px;
+}
+
+.btn-action-div {
+	margin-top: -6%;
+}
+
+.btn-remove {
+	margin-top: -3px !important;
+}
+
+.btn-edit {
+	margin-left: 85%;
+}
+.lado{
+	margin-left: auto;
+}
+
+.listClick {
+	width: -moz-fit-content !important;
+	position: relative;
+	z-index: 1;
+	padding-top: 0;
+	top: 1%;
+	float: left;
+	overflow-y: auto;
+	max-height: 600px;
+}
+
+.row-collection {
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+.btn-edit {
+
+}
+
+table {
+	border: 1px solid #c0c0c0;
+    display: inline-table;
+	margin-top: 5px;
+	margin-bottom: 50px;
+}
+
+tbody {
+	margin-top: 2px;
+	border-bottom: 1px solid #c0c0c0;
+	display: table;
+	width: 100%;
+	padding: 0;
+}
+
+thead > tr {
+	margin-bottom: 0px;
+	border-bottom: 1px solid;
+}
+
+th {
+	margin-bottom: 0px;
+}
+
+.btn-floating i {
+	font-size: 1.3rem;
+}
+
+td > a > i {
+	margin-top: 30%;
+}
+
+
+.fieldset-planejamento-triagem {
+	background: #e6fdff;
+	margin: 20px;
+}
+
+.row-btns {
+	margin-bottom: 130px;
+}
+
+.margemTable{
+	margin-top: 20px;
+}
+.btn-add-fieldset {
+	margin-left: 15px;
+}
+.btn-add {
+    margin-top: 0% !important;
+}
+
+.collection .collection-item.active {
+    background-color: #26a69a !important;
+    color: #eafaf9;
+}
+
+.icon-right{
+	position: absolute;
+	right: 2%;
+	top: 1%;
+}
+
+
+tbody{
+	margin-top: 10px;
+	border-bottom: 1px solid #c0c0c0;	
+	display: flex !important;
+	padding: 0;
+}
+
+.container-triagens-planejamento tbody {
+	margin-top: 0px !important;
+}
+
+.container-triagens-planejamento tr {
+	margin-bottom: 0px !important;
+}
+
+.container-triagens-planejamento .row {
+	margin-bottom: 5px;
+}
+
+.container-triagens-planejamento input {
+	margin-bottom: 5px;
+}
+
+.fieldset-planejamento-triagem {
+	background: #e6fdff;
+	margin: 20px;
+}

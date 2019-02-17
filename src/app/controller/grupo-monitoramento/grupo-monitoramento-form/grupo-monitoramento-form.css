@@ -1,0 +1,66 @@
+.btn-add {
+	margin-top: 15px;
+}
+
+.collection .collection-item:last-child { 
+    cursor: pointer;
+}
+
+.row-item-collection {
+	border-top: solid 1px #a2a2a2;
+	line-height: 0;
+}
+
+.row-collection {
+	margin-bottom: 0px;
+}
+
+.row-avaliacao {
+    margin-left: -20px;
+}
+
+.checkbox {
+	margin-top: 30px;
+}
+
+.checkboxtable{
+	margin-top: 0px;
+}
+
+[type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+    position: absolute;
+    opacity: 0;
+    margin-top: 15px;
+    pointer-events: auto;
+}
+
+.select {
+	margin-bottom: 20px;
+}
+
+.btn-delete {
+	margin-top: -5px;
+}
+
+.avaliacao {
+	padding-left: 0px;
+}
+
+table {
+	border: 1px solid #c0c0c0;
+    margin-top: 25px;
+}
+
+thead > tr {
+	margin-bottom: 0px;
+	border-bottom: 1px solid;
+}
+
+td > a > i {
+	margin-top: -5px;
+}
+
+tbody{
+	margin-top: 10px;
+	border-bottom: 1px solid #c0c0c0;	
+}

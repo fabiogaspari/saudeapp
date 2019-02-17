@@ -1,0 +1,59 @@
+<head>
+<meta charset="utf-8">
+</head>
+
+<!-- Confirm Save -->
+<app-confirm-save [show]="showConfirmSave" [msg]="msgConfirmSave"
+	[goTo]="goTo"></app-confirm-save>
+
+<div class="row form-container">
+	<form class="col s12" (ngSubmit)="next()">
+
+		<div class="row cabecalho">
+			<h6>Serviço: {{tarefa.servico.nome}}</h6>
+			<h6>Cliente: {{tarefa.cliente.pessoa.nome}}</h6>
+		</div>
+
+
+	<div class="row">
+			<div class="col s12">
+				<ul class="tabs" materialize="tabs">
+					<li class="tab col s6"><a RouterLinkActive="active"
+						href="#dadosGerais">Dados Atuais</a></li>
+					<li class="tab col s6"><a RouterLinkActive="active"
+						href="#mudancaFuncao">Mudança de Função</a></li>					
+				</ul>			
+			</div>
+		<div id="dadosGerais">
+			<app-informacao-empregado [empregado]="mudancaFuncao.tarefas[0].cliente" [service]="solicitacaoServicoService">
+			 </app-informacao-empregado>	
+		</div>
+		<div class="content-dados" id="mudancaFuncao">
+		     <app-include-mudanca-funcao [mudancaFuncao]="mudancaFuncao" [desabilitarGhe]="false"
+			   [desabilitarGhee]="false" [service]="solicitacaoServicoService">
+			 </app-include-mudanca-funcao>				
+		</div>
+     </div>
+		<div class="mensagem">
+			<app-mensagem-form *ngIf="verifyError" [color]="colorError"
+				[msg]="msgError"></app-mensagem-form>
+		</div>
+
+
+		<div class='row row-btns'>
+		
+			<div class="col s6 botao-voltar">
+				<button (click)="back()" class="btn btn-primary btn-salvar">Voltar</button>
+			</div>
+			
+			<div class="col s6 btn-avancar">
+				<button type="submit" class="btn btn-primary btn-salvar right">Avançar</button>
+			</div>
+			
+		</div>
+
+	</form>
+</div>
+
+<div materialize [materializeParams]="toastParams"
+	[materializeActions]="globalActions"></div>

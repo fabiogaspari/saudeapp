@@ -1,0 +1,81 @@
+.form-container {
+	margin-bottom: 100px;
+}
+
+.center-icon {
+	margin-top: 0px;
+}
+
+.row-btns {
+	margin-top: 20px;
+}
+
+.btn-add-autocomplete {
+	margin-left: 15px;
+}
+
+.btn-add-fieldset {
+	margin-left: 15px;
+}
+
+.btn-add {
+	margin-top: 15px;
+}
+
+.btn-remove {
+	margin-top: 15px;
+}
+
+.btn-listar {
+	float: left;
+}
+
+.btn-salvar {
+	float: right;
+}
+
+select {
+	display: inline;
+}
+
+.input-field>select {
+	display: block;
+	position: absolute;
+	width: 250px;
+	pointer-events: all;
+	height: 50px;
+	top: 0;
+	left: 20px;
+	opacity: 10;
+}
+
+.tabs {
+	margin-top: 3px;
+}
+
+.selects {
+	margin-left: 2%;
+}
+
+.selects-bottom {
+	margin-top: 40px;
+}
+
+.mensagem {
+	margin-top: 50px;
+}
+
+.table-infos {
+	width:100%;
+}
+
+.table-infos tr {
+	background: #ddd;
+	border-style: groove;
+}
+
+.table-infos th, .table-infos td {
+	border: 1px solid;
+	padding-top: 3px;
+	padding-bottom: 3px;
+}

@@ -1,0 +1,36 @@
+.pergunta {
+	border: 2px #000 inset;
+    padding-bottom: 1%;
+    background: #fffaf0;
+    margin-bottom: 1%;
+}
+
+textarea {
+	overflow: auto;
+}
+
+[disabled] {
+	background-color: #d9d9d9 !important;
+}
+
+.resposta-select, .div-resposta-select, .resposta-itens, .pergunta-label-item {
+	padding: 0;
+}
+
+.resposta-item {
+	padding: 0 !important;
+}
+
+i {
+	margin: 0;
+}
+
+.title-modal{
+	text-align: center;
+	color: #26a69a;
+}
+
+.error-pattern {
+	text-align: center;
+	color: red;
+}

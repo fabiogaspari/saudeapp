@@ -1,0 +1,157 @@
+<head>
+<meta charset="utf-8">
+</head>
+
+<!-- -->
+<app-mensagem-form *ngIf="verifyEmptyPaginas" [msg]="msgEmptyPaginas"
+	[color]="colorEmptyPaginas"> </app-mensagem-form>
+
+<!-- Preload  -->
+<app-preload [msg]="msgPreload" [show]="showPreload"></app-preload>
+
+<div class="list-container">
+
+	<div class="collection">
+
+		<div *ngFor="let a of array">
+			<div class="row row-collection">
+				<div class="col s9">
+					<a [routerLinkActive]="['active']" class="collection-item">{{a.nome}}</a>
+				</div>
+				<div class="col s1">
+					<a [routerLink]="['/ghee/detalhe', a.id]"><i
+						class="material-icons">details</i></a>
+				</div>
+				<div class="col s1">
+					<a [routerLink]="['/ghee/editar', a.id]"><i
+						class="material-icons">mode_edit</i></a>
+				</div>
+				<div class="col s1">
+					<a [ngStyle]="{'cursor': 'pointer'}" (click)="delete(a.id)"><i
+						class="material-icons">delete</i></a>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<!-- Paginação -->
+	<app-paginacao [filter]="filter" [paginasAtuais]="paginasAtuais"
+		[paginas]="paginas" [listComponent]="listComponent"
+		[verifyEmptyPaginas]="verifyEmptyPaginas"></app-paginacao>
+
+	<a class="waves-effect waves-light btn" (click)="openModal()">Filtro</a>
+	<a [routerLink]="['/ghee/cadastrar']"
+		class="waves-effect waves-light btn button-add">Adicionar</a>
+
+</div>
+
+<!-- Modal Structure -->
+<div id="modal" class="modal" materialize="modal" (keypress)="enterFilter($event)"
+	[materializeParams]="modelParams" [materializeActions]="modalActions">
+
+	<div class="row">
+
+		<div class="input-field col s12">
+			<div class="modal-content">
+				<label for="nome">Nome</label> 
+				<input type="text" id="nome" maxlength="64"
+					[(ngModel)]="filtro.nome" name="nome">
+			</div>
+		</div>
+
+		<div class="input-field col s8">
+			<div class="modal-content">
+				<label for="codigo">Código</label> 
+				<input type="text" id="codigo" maxlength="64"
+					[(ngModel)]="filtro.codigo" name="codigo">
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="input-field col s12">
+			<div class="input-field col s4">
+					<label for="dataCriacaoInicial">Data de Criação Inicial</label>
+					<app-date-picker [nome]="'dataCriacaoInicio'" 
+									[customDate]="filtro.dataCriacao.inicioCustomDate" 									
+									[legenda]="'Data de Criação Inicial'"									
+									></app-date-picker>
+				</div>
+				<div class="input-field col s4">
+					<label for="dataCriacaoFinal">Data de Criação Final</label>
+					<app-date-picker [nome]="'dataCriacaoFinal'" 
+									[customDate]="filtro.dataCriacao.fimCustomDate" 									
+									[legenda]="'Data de Criação Final'"									
+									></app-date-picker>
+				</div>
+				<div class="input-field col s4">
+					<fieldset>
+						<legend>Tipo do Filtro</legend>
+						<select name="tipo" class="browser-default"
+							[(ngModel)]="filtro.dataCriacao.typeFilter">
+							<option disabled selected value=0>Selecione um tipo</option>
+							<option *ngFor="let item of typeFilters()" value="{{item}}">{{item}}</option>
+						</select>
+					</fieldset>
+				</div>
+
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="input-field col s12">
+		<div class="input-field col s4">
+					<label for="dataDesativacaoInicial">Data de Desativação
+						Inicial</label>
+						<app-date-picker [nome]="'dataDesativacaoInicio'" 
+									[customDate]="filtro.dataDesativacao.inicioCustomDate" 									
+									[legenda]="'Data de Desativação Inicial'"									
+									></app-date-picker>
+				</div>
+				<div class="input-field col s4">
+					<label for="dataCriacaoFinal">Data de Desativação Final</label>
+						<app-date-picker [nome]="'dataDesativacaoFinal'" 
+									[customDate]="filtro.dataDesativacao.fimCustomDate" 									
+									[legenda]="'Data de Desativação Final'"									
+									></app-date-picker>
+				</div>
+
+				<div class="input-field col s4">
+					<fieldset>
+						<legend>Tipo do Filtro</legend>
+						<select name="tipo" class="browser-default"
+							[(ngModel)]="filtro.dataDesativacao.typeFilter">
+							<option disabled selected value=0>Selecione um tipo</option>
+							<option *ngFor="let item of typeFilters()" value="{{item}}">{{item}}</option>
+						</select>
+					</fieldset>
+				</div>
+
+			</div>
+		</div>
+
+		<div class="input-field col s12">
+			<div class="modal-content">
+				<label for="descricao">Descrição</label>
+				<textarea id="descricao" class="materialize-textarea" maxlength="1024"
+					[(ngModel)]="filtro.descricao" name="filtro.descricao"></textarea>
+			</div>
+		</div>
+
+	</div>
+
+	<div class="modal-footer">
+		<a class="waves-effect waves-green btn-flat" (click)="closeModal()">Fechar</a>
+		<a class="modal-action modal-close waves-effect waves-green btn-flat"
+			(click)="filtrar()">Filtrar</a>
+	</div>
+
+</div>
+
+<app-confirm-delete [service]="service" [idDelete]="tempDelete" (cancelDelete)="closeModalDelete($event)"
+	[show]="openModalDelete"></app-confirm-delete>
+
+<div class="mensagem">
+	<app-mensagem-form *ngIf="verifyError" [color]="colorError"
+		[msg]="msgError"></app-mensagem-form>
+</div>

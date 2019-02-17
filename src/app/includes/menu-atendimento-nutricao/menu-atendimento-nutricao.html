@@ -1,0 +1,25 @@
+<head>
+<meta charset="utf-8">
+</head>
+
+<div class="row">
+	<div class="btns" style="display: grid;">
+		<button type="button" class="btn btn-primary" (click)="newQuestionario()"
+			[disabled]="verifyAtendimentoIsNull()">
+				Questionário
+		</button>
+		
+		<button type="button" class="btn btn-primary" (click)="newRecordatorio()"
+				[disabled]="verifyAtendimentoIsNull()">
+				Recordatório
+		</button>
+		<button type="button" class="btn btn-primary" (click)="newPlanoAlimentar()"
+				[disabled]="verifyAtendimentoIsNull()">
+				Plano Alimentar
+		</button>
+		<button type="button" class="btn btn-primary" (click)="functionLoad()"
+			[class.disabled]="verifyAtendimentoIsNull()">
+				Carregar
+		</button>
+	</div>
+</div>

@@ -1,0 +1,117 @@
+<head>
+<meta charset="utf-8">
+</head>
+
+<app-preload [msg]="msgPreload" [show]="showPreload"></app-preload>
+<!-- Confirm Save -->
+<app-confirm-save [show]="showConfirmSave" [msg]="msgConfirmSave"
+	[goTo]="goTo"></app-confirm-save>
+
+<div class="row form-container">
+	<div>							
+		<h6>Nome do Empregado: <b>{{mudancaFuncao.tarefas[0]?.cliente.pessoa.nome}}</b></h6>
+	</div>
+	<form #form="ngForm" class="col s12" (ngSubmit)="save()">
+		<div class="row">
+			<ul class="tabs" materialize="tabs">
+				<li class="tab col s3"><a RouterLinkActive="active"
+					href="#dadosGerais">Dados Atuais</a></li>
+				<li class="tab col s3"><a RouterLinkActive="active"  
+					href="#mudancaFuncao">Mudança de Função</a></li>
+				<li class="tab col s3"><a RouterLinkActive="active"
+					href="#tarefas">Tarefas</a></li>
+					<li class="tab col s3" [class.disabled]="(profissional.equipe.abreviacao !='CAT')"><a RouterLinkActive="active"
+					href="#agendamento">Agendamento</a></li>
+			</ul>
+			<div class="groups">
+				<div id="dadosGerais">
+					<app-informacao-empregado [empregado]="mudancaFuncao?.tarefas[0]?.cliente" [service]="mudancaFuncaoService">
+					</app-informacao-empregado>	
+				</div>			
+				<div id="mudancaFuncao">
+				   <app-include-mudanca-funcao [mudancaFuncao]="mudancaFuncao" [desabilitarGhe]="(tarefaHigieneOcupacional.fim != undefined)"
+					[desabilitarGhee]="(tarefaErgonomia.fim != undefined)" [service]="mudancaFuncaoService">
+			       </app-include-mudanca-funcao>
+			  </div>
+			<div id="tarefas">
+			<div class="row">
+
+					<table class="striped row row-full">
+						<thead>
+							<tr class="row col s12">
+								<th class="col s2">Data Inicio</th>
+								<th class="col s2">Data Fim</th>
+								<th class="col s3">Equipe</th>
+								<th class="col s3">Status</th>
+							</tr>
+						</thead>
+						<div *ngFor="let tarefa of mudancaFuncao.tarefas;let i = index">
+							<tbody class="col s12">
+								<tr class="col s12" >									
+										<td class="col s2 mudancaFuncao" >{{tarefa.inicio  |transformDate}}</td>
+										<td class="col s2 mudancaFuncao" >{{tarefa.fim  |transformDate}}</td>
+										<td class="col s3 mudancaFuncao" >{{tarefa.equipe.nome}}</td>
+										<td class="col s3 mudancaFuncao" >
+											<select name="tarefa.status{{i}}" class="browser-default" 
+															[(ngModel)]="tarefa.status"  
+															[disabled]="tarefa.desabilitarTarefaMundancaFuncao"
+															(change)="setarResponsavel(i)">
+												<option *ngFor="let status of listStatus" value="{{status}}">{{status}}</option>
+											</select>						
+										</td>
+								</tr>
+							</tbody>
+						</div>
+
+					</table>
+
+				</div>	
+			
+			</div>
+			<div id="agendamento">
+				<div class="row">				
+					<div class="input-field col s4">
+					<label>Agendamento</label>
+					<app-date-picker [nome]="'tarefaMedicinaOcupacional.inicio'" 
+									[customDate]="tarefaMedicinaOcupacional.inicioCustomDate" 									
+									[legenda]="'Agendamento'"									
+									></app-date-picker>
+				    </div>
+				
+				</div>
+			</div>
+		</div>
+		<div class='row row-btns'>
+		
+			<div class="col s2">
+				<a [routerLink]="['/mudanca-funcao']" class="btn btn-primary btn-listar">Listar</a>
+			</div>
+			
+			<div class="col s4">
+				<a (click)="solicitarConvocacao()" class="btn btn-primary btn-salvar" 
+				[class.disabled]="(profissional.equipe.abreviacao !='MED' || 
+				tarefaErgonomia.fim == undefined || 
+				tarefaHigieneOcupacional.fim == undefined)">Solicitar Convocação</a>
+			</div>
+			
+			<div class="col s3">
+				<a (click)="aplicarAlteracao()" class="btn btn-primary btn-salvar" 
+				[class.disabled]="(profissional.equipe.abreviacao !='MED' || 
+				tarefaErgonomia.fim == undefined || 
+				tarefaHigieneOcupacional.fim == undefined ||
+				tarefaMedicinaOcupacional.fim == undefined
+				)">Aplicar Alterações</a>
+			</div>
+			
+			<div class="col s3 btn-salvar">
+				<button type="submit" class="btn btn-primary btn-salvar right">salvar</button>
+			</div>			
+		</div>
+	</div>
+		<div class="mensagem">
+			<app-mensagem-form *ngIf="verifyError" [color]="colorError"
+				[msg]="msgError"></app-mensagem-form>
+		</div>
+	</form>
+	
+</div>

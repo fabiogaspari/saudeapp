@@ -1,0 +1,68 @@
+.list-container {
+	margin-bottom: 100px;
+}
+
+.center-icon {
+	margin-top: 0px;
+}
+
+.material-icons {
+    margin-top: 0.5rem;
+}
+
+.row {
+	margin-bottom: 0px;
+}
+
+.arrow-pagination{
+	margin-top: -0.1px;	
+}
+
+.row-collection {
+	border-bottom: solid 1px #e0e0e0;
+}
+
+.button-add {
+	float: right;
+}
+
+.button-import {
+	text-align: center;
+}
+
+.file-import {
+	padding: 10px;
+}
+
+.preload {
+	margin-top: 15px;
+}
+
+.titulo {
+	margin-bottom: 60px;
+    margin-top: 20px;
+}
+
+.title-modal-delete {
+	color: #26a69a;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.paragraph-modal-delete {
+	margin-left: 10px;
+}
+
+.title-modal-import {
+	color: #26a69a;
+    text-align: center;
+    margin-top: 0px;
+}
+
+.btn-importar {
+	margin-top: 20px;
+}
+
+.form-import {
+	margin-top: 50px;
+}

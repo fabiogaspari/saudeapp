@@ -1,0 +1,176 @@
+[type="checkbox"]:not(:checked), [type="checkbox"]:checked  {
+    position: absolute;
+    opacity: 0;
+    margin-top: 15px;
+    pointer-events: auto;
+}
+
+.checkbox {
+	margin-top: 0px;
+	padding-left: 35px;
+}
+
+table {
+	border: 1px solid #c0c0c0;
+    margin-top: 25px;
+}
+
+thead > tr {
+	margin-bottom: 0px;
+	border-bottom: 1px solid;
+}
+
+td > a > i {
+	margin-top: -5px;
+}
+
+tbody{
+	margin-top: 10px;
+	border-bottom: 1px solid #c0c0c0;
+	overflow: auto;
+    max-height: 500px;
+}
+
+.ranking {
+	padding-top: 10px;
+}
+
+.col {
+	margin: 0 auto;
+}
+
+.content-riscos {}
+
+.list-container {
+	max-height: 500px;
+	overflow-y: auto;
+	overflow-x: auto;
+	margin-bottom: 200px !important;
+}
+
+td, th {
+	padding: 0px !important;
+}
+
+td {
+	border-bottom: 1px solid #c0c0c0;
+}
+
+.item-ranking {
+	padding-left: 5% !important;
+}
+
+.div-icon {
+    display: initial;
+}
+
+.div-icon > i {
+	
+}
+
+.mleft {
+    margin-left: 5%;
+}
+
+.icon {
+	cursor: pointer;
+}
+
+.dropdown-conteudo {
+	display: none;
+	margin-top: -1%;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    overflow-y: auto;
+    max-height: 200px;
+}
+
+.show {
+	display: table-cell;
+}
+
+.filtro {
+	display: block;
+}
+
+.div-select {
+	display: block;
+    width: 60%;
+    margin: 0 auto;
+    margin-right: 10% !important;
+}
+
+.div-filter {
+	width: 100%;
+    margin: 0 auto;
+    margin-left: 5%;
+    margin-top: 2%;
+    margin-bottom: -2% !important;
+    display: inline-block;
+}
+
+.div-filter > label {
+    font-size: 15px;
+    font-weight: bold;
+    color: #4fc3f7;
+    text-align: left;
+}
+
+.fieldset-select {
+	padding-bottom: 2%;
+	padding: 10px;
+    margin-right: 0;
+}
+
+.btn-filtrar {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.empregado {
+	padding-left: 10px;
+}
+
+.gestao {
+	padding-left: 7px;
+}
+
+.rpsat {
+	padding-left: 2px;
+}
+
+.ranking {
+	padding-left: 20px;
+    padding-top: 7px;
+}
+
+.row-risco { 
+	cursor: pointer;
+	padding-top: 10px;
+}
+
+.row-btns {
+	text-align: center;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.btn-ranking {
+	background: #2d286f;
+	margin-left: 10px;
+}
+
+.div-btns-risco {
+	margin-top: 5px;
+}
+
+.head-table-riscos {
+	display: flex;
+}
+
+.div-riscos {
+	display: flex;
+}

@@ -1,0 +1,296 @@
+<head>
+<meta charset="utf-8">
+</head>
+
+<!-- -->
+<app-mensagem-form *ngIf="verifyEmptyPaginas" [msg]="msgEmptyPaginas"
+	[color]="colorEmptyPaginas"> </app-mensagem-form>
+
+<!-- Preload  -->
+<app-preload [msg]="msgPreload" [show]="showPreload"></app-preload>
+
+<div class="list-container">
+
+	<div class="collection">
+
+		<div *ngFor="let a of array">
+			<div class="row row-collection">
+				<div class="col s9">
+					<a [routerLinkActive]="['active']" class="collection-item">{{a.pessoa.nome}}</a>
+				</div>
+				<div class="col s1">
+					<a [routerLink]="['/empregado/detalhe', a.id]"><i
+						class="material-icons">details</i></a>
+				</div>
+				<div class="col s1">
+					<a [routerLink]="['/empregado/editar', a.id]"><i
+						class="material-icons">mode_edit</i></a>
+				</div>
+				<div class="col s1">
+					<a [ngStyle]="{'cursor': 'pointer'}" (click)="delete(a.id)"><i
+						class="material-icons">delete</i></a>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<!-- Paginação -->
+	<app-paginacao [filter]="filter" [paginasAtuais]="paginasAtuais"
+		[paginas]="paginas" [listComponent]="listComponent"
+		[verifyEmptyPaginas]="verifyEmptyPaginas"></app-paginacao>
+
+	<div class="row">
+		<div class="col s4">
+			<a class="waves-effect waves-light btn" (click)="openModal()">Filtro</a>
+		</div>
+		<div class="col s4  button-import">
+			<a class="waves-effect waves-light btn" (click)="openModalImport()">Importar</a>
+		</div>
+		<div class="col s4">
+			<a [routerLink]="['/empregado/cadastrar']"
+				class="waves-effect waves-light btn button-add">Adicionar</a>
+		</div>
+	</div>
+
+</div>
+
+<!-- Modal Structure -->
+<div id="modal" class="modal" materialize="modal"
+	[materializeParams]="modelParams" [materializeActions]="modalActions" (keypress)="enterFilter($event)">
+
+	<div class="row">
+		<div class="input-field col s12">
+			<div class="modal-content">
+				<label for="nome">Nome</label> 
+				<input type="text" id="nome" maxlength="400"
+					[(ngModel)]="filter.pessoa.nome" name="nome">
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="input-field col s12">
+				<div class="input-field col s4">
+					<label for="dataNascimentoInicial">Data de Nascimento
+						Inicial</label>
+						<app-date-picker [nome]="'dataNascimentoInicio'" 
+									[customDate]="filter.pessoa.dataNascimento.inicioCustomDate" 
+									[obrigatorio]="'false'"
+									[legenda]="'Data de Nascimento Inicial'"									
+									></app-date-picker>
+				</div>
+				<div class="input-field col s4">
+					<label for="dataNascimentoFinal">Data de Nascimento Final</label>
+					<app-date-picker [nome]="'dataNascimentoFinal'" 
+									[customDate]="filter.pessoa.dataNascimento.fimCustomDate" 
+									[obrigatorio]="'false'"
+									[legenda]="'Data de Nascimento Final'"									
+									></app-date-picker>
+				</div>
+
+				<div class="input-field col s4">
+					<fieldset>
+						<legend>Tipo do Filtro</legend>
+						<select name="tipo" class="browser-default"
+							[(ngModel)]="filter.pessoa.dataNascimento.typeFilter">
+							<option disabled selected value=0>Selecione um tipo</option>
+							<option *ngFor="let item of typeFilters()" value="{{item}}">{{item}}</option>
+						</select>
+					</fieldset>
+				</div>
+
+			</div>
+		</div>
+
+		<div class="input-field col s12">
+			<div class="modal-content">
+				<label for="chave">Chave</label> 
+				<input type="text" id="chave" maxlength="16"
+					[(ngModel)]="filter.chave" name="chave">
+			</div>
+		</div>
+
+		<div class="input-field col s12">
+			<div class="modal-content">
+				<label for="matricula">Matricula</label> 
+				<input type="text" maxlength="32"
+					id="matricula" [(ngModel)]="filter.matricula" name="matricula">
+			</div>
+		</div>
+
+		<div class="input-field col s12">
+			<div class="modal-content">
+				<label for="ramal">Ramal</label> 
+				<input type="text" id="ramal" maxlength="16"
+					[(ngModel)]="filter.ramal" name="ramal">
+			</div>
+		</div>
+
+		<div class="input-field col s12">
+			<fieldset>
+				<legend>Vínculo</legend>
+				<select name="vinculo" class="browser-default"
+					[(ngModel)]="filter.vinculo">
+					<option disabled selected value="">Selecione um vínculo</option>
+					<option *ngFor="let vinculo of vinculos" value="{{vinculo}}">{{vinculo}}</option>
+				</select>
+			</fieldset>
+		</div>
+
+		<div class="input-field col s12">
+			<fieldset>
+				<legend>Status</legend>
+				<select name="status" class="browser-default"
+					[(ngModel)]="filter.status">
+					<option disabled selected value="">Selecione um status</option>
+					<option *ngFor="let status of statuses" value="{{status}}">{{status}}</option>
+				</select>
+			</fieldset>
+		</div>
+
+		<div class="input-field col s12">
+			<fieldset>
+				<legend>Escolaridade</legend>
+				<select name="escolaridade" class="browser-default"
+					[(ngModel)]="filter.escolaridade">
+					<option disabled selected value="">Selecione uma escolaridade</option>
+					<option *ngFor="let escolaridade of escolaridades"
+						value="{{escolaridade}}">{{escolaridade}}</option>
+				</select>
+			</fieldset>
+		</div>
+		
+		<div class="input-field col s12">
+			<div class="modal-content">
+				<label for="gerencia.codigoCompleto">Gerência</label> 
+				<input type="text" maxlength="64" id="gerencia.codigoCompleto" 
+				[(ngModel)]="filter.gerencia.codigoCompleto" name="gerencia.codigoCompleto">
+			</div>
+		</div>
+		<!--
+		<div class="input-field col s12">
+			<fieldset>
+				<legend>Cargo</legend>
+				<select name="cargo" class="browser-default"
+					[(ngModel)]="filter.cargo.nome">
+					<option disabled selected value="">Selecione um cargo</option>
+					<option *ngFor="let cargo of cargos" value="{{cargo.nome}}">{{cargo.nome}}</option>
+				</select>
+			</fieldset>
+		</div>
+
+		<div class="input-field col s12">
+			<fieldset>
+				<legend>Função</legend>
+				<select name="funcao" class="browser-default"
+					[(ngModel)]="filter.funcao.nome">
+					<option disabled selected value="">Selecione uma função</option>
+					<option *ngFor="let funcao of funcoes" value="{{funcao.nome}}">{{funcao.nome}}</option>
+				</select>
+			</fieldset>
+		</div>
+
+		<div class="input-field col s12">
+			<fieldset>
+				<legend>Regime</legend>
+				<select name="regime" class="browser-default"
+					[(ngModel)]="filter.regime.nome">
+					<option disabled selected value="">Selecione um regime</option>
+					<option *ngFor="let regime of regimes" value="{{regime.nome}}">{{regime.nome}}</option>
+				</select>
+			</fieldset>
+		</div>
+
+		<div class="input-field col s12">
+			<fieldset>
+				<legend>Gerencia</legend>
+				<select name="gerencia" class="browser-default"
+					[(ngModel)]="filter.gerencia.codigoCompleto">
+					<option disabled selected value="">Selecione uma gerencia</option>
+					<option *ngFor="let gerencia of gerencias"
+						value="{{gerencia.codigoCompleto}}">{{gerencia.codigoCompleto}}</option>
+				</select>
+			</fieldset>
+		</div>
+
+		<div class="input-field col s12">
+			<fieldset>
+				<legend>Base</legend>
+				<select name="base" class="browser-default"
+					[(ngModel)]="filter.base.nome">
+					<option disabled selected value="">Selecione uma base</option>
+					<option *ngFor="let base of bases" value="{{base.nome}}">{{base.nome}}</option>
+				</select>
+			</fieldset>
+		</div>
+  
+		<div class="input-field col s12">
+			<fieldset>
+				<legend>Ghe</legend>
+				<select name="ghe" class="browser-default"
+					[(ngModel)]="filter.ghe.nome">
+					<option disabled selected value=0>Selecione um ghe</option>
+					<option *ngFor="let ghe of ghes" value="{{ghe.nome}}">{{ghe.nome}}</option>
+				</select>
+			</fieldset>
+		</div>
+
+		<div class="input-field col s12">
+			<fieldset>
+				<legend>Ghee</legend>
+				<select name="ghee" class="browser-default"
+					[(ngModel)]="filter.ghee.nome">
+					<option disabled selected value=0>Selecione um ghee</option>
+					<option *ngFor="let ghee of ghees" value="{{ghee.nome}}">{{ghee.nome}}</option>
+				</select>
+			</fieldset>
+		</div>
+-->
+	</div>
+
+	<div class="modal-footer">
+		<a class="waves-effect waves-green btn-flat" (click)="closeModal()">Fechar</a>
+		<a class="modal-action modal-close waves-effect waves-green btn-flat"
+			(click)="setFilter()">Filtrar</a>
+	</div>
+
+</div>
+
+<app-confirm-delete [service]="service" [idDelete]="tempDelete" (cancelDelete)="closeModalDelete($event)"
+	[show]="openModalDelete"></app-confirm-delete>
+
+<!-- Modal Structure -->
+<div id="modal" class="modal" materialize="modal" 
+	[materializeParams]="modalParams" [materializeActions]="modalImport">
+
+	<form #form="ngForm" class="col s12 form-import" *ngIf="canImport">
+
+		<h5 class="title-modal-import">Importar Arquivo</h5>
+
+		<div class="row file-import">
+			<div class="file-field input-field col s12">
+				<div class="btn">
+					<span>File</span> <input id="arquivo" type="file" #arquivo
+						name="arquivo" accept=".xls, .xlsx">
+				</div>
+				<div class="file-path-wrapper">
+					<input class="file-path validate" type="text">
+				</div>
+			</div>
+		</div>
+
+		<div class="modal-footer">
+			<a type="submit" class="waves-effect waves-green btn-flat"
+				(click)="importFile()">Importar</a> <a
+				class="waves-effect waves-green btn-flat"
+				(click)="closeModalImport()">Fechar</a>
+		</div>
+
+	</form>
+
+</div>
+
+<div class="mensagem">
+	<app-mensagem-form *ngIf="verifyError" [color]="colorError"
+		[msg]="msgError"></app-mensagem-form>
+</div>

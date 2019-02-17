@@ -1,0 +1,42 @@
+<head>
+<meta charset="utf-8">
+</head>
+
+<!-- Confirm Save -->
+<app-confirm-save [show]="showConfirmSave" [msg]="msgConfirmSave"
+	[goTo]="goTo"></app-confirm-save>
+
+<div class="row form-container">
+	<form class="col s12" (ngSubmit)="next()">
+	
+	
+		<div class="row cabecalho">
+			<h6>Serviço: {{atestado.tarefa.servico.nome}}</h6>
+			<h6>Cliente: {{atestado.empregado.pessoa.nome}}</h6>
+		</div>
+
+		<app-homologacao-atestado [atestado]="atestado"></app-homologacao-atestado>
+
+		<div class="mensagem">
+			<app-mensagem-form *ngIf="verifyError" [color]="colorError"
+				[msg]="msgError"></app-mensagem-form>
+		</div>
+
+		<div class='row row-btns'>
+		
+			<div class="col s6 botao-voltar">
+				<button (click)="back()" class="btn btn-primary btn-salvar">Voltar</button>
+			</div>
+			
+			<div class="col s6 btn-avancar">
+				<button type="submit" [disabled]="!homologacaoAtestado.getCiente()" 
+					class="btn btn-primary btn-salvar right">Avançar</button>
+			</div>
+			
+		</div>
+
+	</form>
+</div>
+
+<div materialize [materializeParams]="textUtil.toastParams"
+	[materializeActions]="textUtil.globalActions"></div>
